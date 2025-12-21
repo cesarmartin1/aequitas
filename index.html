@@ -542,7 +542,7 @@
         // ===================== CONFIGURACIÓN AZURE AD =====================
         const msalConfig = {
             auth: {
-                clientId: "TU_CLIENT_ID_AQUI", // Reemplazar con tu Application (client) ID de Azure
+                clientId: "f6ad42b2-ab2e-4ecf-9db6-97a0a27aada1", // Reemplazar con tu Application (client) ID de Azure
                 authority: "https://login.microsoftonline.com/common",
                 redirectUri: window.location.origin
             },
@@ -644,7 +644,7 @@
         }
         
         async function loginMicrosoft() {
-            if (msalConfig.auth.clientId === "TU_CLIENT_ID_AQUI") {
+            if (msalConfig.auth.clientId === "f6ad42b2-ab2e-4ecf-9db6-97a0a27aada1") {
                 alert('⚠️ Configura tu Client ID de Azure AD en el código.\n\nMientras tanto, continuarás sin autenticación.');
                 showUploadScreen();
                 return;
