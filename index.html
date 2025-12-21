@@ -170,7 +170,8 @@
         .empresa-stat-value.unitravel { color: var(--unitravel-color); }
         .empresa-stat-value.david { color: var(--david-color); }
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .status-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 24px; }
         .status-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); }
         .status-card.accepted { border-left: 4px solid var(--success); }
@@ -1177,7 +1178,11 @@
             Object.entries(clientes).sort((a, b) => b[1].facturacion - a[1].facturacion).forEach(([n, d]) => { const tr = document.createElement('tr'); tr.innerHTML = '<td>' + n + '</td><td>' + d.servicios + '</td><td>' + formatCurrency(d.facturacion) + '</td><td>' + formatCurrency(d.servicios > 0 ? d.facturacion / d.servicios : 0) + '</td>'; tbody.appendChild(tr); });
         }
         
-        function switchTab(tab) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); event.target.classList.add('active'); document.getElementById('tab-' + tab).classList.add('active'); }
+        function switchTab(tab) { 
+            // Scroll hacia el contenido
+            document.querySelector(".main").scrollIntoView({ behavior: "smooth", block: "start" });
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active')); event.target.classList.add('active'); document.getElementById('tab-' + tab).classList.add('active'); }
         
         function exportToExcel() {
             const wb = XLSX.utils.book_new();
