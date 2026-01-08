@@ -1004,9 +1004,17 @@
             
             const stats = { Unitravel: { servicios: 0, facturacion: 0 }, David: { servicios: 0, facturacion: 0 } };
             const prevStats = { Unitravel: { servicios: 0, facturacion: 0 }, David: { servicios: 0, facturacion: 0 } };
-            
-            filteredCierre.forEach(r => { const e = getEmpresa(r.CONDUCTOR), c = String(r.COD_SERVICIO || ''); if (stats[e]) { stats[e].servicios++; stats[e].facturacion += servicioFacturacion[c] || 0; } });
-            prevCierre.forEach(r => { const e = getEmpresa(r.CONDUCTOR), c = String(r.COD_SERVICIO || ''); if (prevStats[e]) { prevStats[e].servicios++; prevStats[e].facturacion += servicioFacturacion[c] || 0; } });
+
+            // Usar archivo de Servicios Discrecionales en lugar del Cierre para el Balance
+            const filteredServicios = data.servicios.filter(r => matchDate(r['Fecha Salida']));
+            const prevServicios = data.servicios.filter(r => {
+                if (!r['Fecha Salida'] || !prevStart || !prevEnd) return false;
+                const d = new Date(r['Fecha Salida']);
+                return d >= prevStart && d <= prevEnd;
+            });
+
+            filteredServicios.forEach(r => { const e = getEmpresa(r.conductor || r['conductor']); if (stats[e]) { stats[e].servicios++; stats[e].facturacion += parseFloat(r['Total']) || 0; } });
+            prevServicios.forEach(r => { const e = getEmpresa(r.conductor || r['conductor']); if (prevStats[e]) { prevStats[e].servicios++; prevStats[e].facturacion += parseFloat(r['Total']) || 0; } });
             
             const totalServ = stats.Unitravel.servicios + stats.David.servicios;
             const totalFact = stats.Unitravel.facturacion + stats.David.facturacion;
