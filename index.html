@@ -1013,8 +1013,8 @@
                 return d >= prevStart && d <= prevEnd;
             });
 
-            filteredServicios.forEach(r => { const e = getEmpresa(r.conductor || r['conductor']); if (stats[e]) { stats[e].servicios++; stats[e].facturacion += parseFloat(r['Total']) || 0; } });
-            prevServicios.forEach(r => { const e = getEmpresa(r.conductor || r['conductor']); if (prevStats[e]) { prevStats[e].servicios++; prevStats[e].facturacion += parseFloat(r['Total']) || 0; } });
+            filteredServicios.forEach(r => { const e = getEmpresa(r['Conductor']); if (stats[e]) { stats[e].servicios++; stats[e].facturacion += parseFloat(r['Total']) || 0; } });
+            prevServicios.forEach(r => { const e = getEmpresa(r['Conductor']); if (prevStats[e]) { prevStats[e].servicios++; prevStats[e].facturacion += parseFloat(r['Total']) || 0; } });
             
             const totalServ = stats.Unitravel.servicios + stats.David.servicios;
             const totalFact = stats.Unitravel.facturacion + stats.David.facturacion;
